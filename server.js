@@ -73,10 +73,13 @@ router.post("/stonks", async function (req, res) {
 
 		let keys = Object.keys(js);
 		for (let i = 0; i < keys.length; i++) {
-			let article = js[keys[i]]
-			console.log(article)
-			let title = "title"
-			let description = "description"
+			let title = keys[i]
+			let article = JSON.parse(js[title])
+			let description = "";
+
+			for (let j = 0; j < article.bullets.length; j++) {
+				description += "\n • " + article.bullets[j]
+			}
 			let link = "link"
 
 			let webpage = 
