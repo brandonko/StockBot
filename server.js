@@ -50,7 +50,7 @@ router.post("/stonks", async function (req, res) {
 	pythonProcess.stdout.on('data', (data) => {
 		let str = data.toString()
 		let js = JSON.parse(str.replace(/'/g, '"'))
-		console.log(JSON.stringify(js, null, 3))
+		// console.log(JSON.stringify(js, null, 3))
 
 		// Format the message
 		let search = req.body.text;
@@ -71,7 +71,10 @@ router.post("/stonks", async function (req, res) {
 			]
 		}
 
-		for (let i = 0; i < 2; i++) {
+		let keys = Object.keys(js);
+		for (let i = 0; i < keys.length; i++) {
+			let article = js[keys[i]]
+			console.log(article)
 			let title = "title"
 			let description = "description"
 			let link = "link"
