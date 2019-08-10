@@ -20,7 +20,7 @@ for ticker in soup.find_all(attrs={"class" : "mc"}):
     internal_json = {"title" : news_title, "bullets" : bullets}
     internal_json = json.dumps(internal_json)
     data[ticker_name] = internal_json
-    if temp_breaker_count > 5:
+    if temp_breaker_count > 1:
         break
 
 json_final_data = json.dumps(data)

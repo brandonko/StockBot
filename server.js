@@ -49,7 +49,7 @@ router.post("/stonks", async function (req, res) {
 
 	pythonProcess.stdout.on('data', (data) => {
 		let str = data.toString()
-		let js = JSON.parse(str.replace('\'', '`').replace(/'/g, '"'))
+		let js = JSON.parse(str.replace(/'/g, '"'))
 		console.log(JSON.stringify(js, null, 3))
 
 		// Format the message
