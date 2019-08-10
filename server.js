@@ -42,32 +42,57 @@ router.post("/news", async function (req, res) {
 
 // Test endpoint
 router.post("/stonks", async function (req, res) {
-	let search = req.body.text
-	let msg = 
-	{
-		"blocks": 
-		[
+
+	// Python script for scraping data
+	let spawn = require("child_process").spawn;
+	let pythonProcess = spawn('python',["./test.py"]);
+
+	pythonProcess.stdout.on('data', (data) => {
+		let str = data.toString()
+		let js = JSON.parse(str.replace(/'/g, '"'))
+		console.log(js)
+
+		// Format the message
+		let search = req.body.text;
+		let msg = 
 		{
-			"type": "section",
-			"text": {
-				"type": "mrkdwn",
-				"text": "Here is some information on the stock market for " + search + ":"
+			"blocks": 
+			[
+			{
+				"type": "section",
+				"text": {
+					"type": "mrkdwn",
+					"text": "Here is some information on the stock market for " + search + ":"
+				}
+			},
+			{
+				"type": "divider"
 			}
-		},
-		{
-			"type": "divider"
-		},
-		{
-			"type": "section",
-			"text": {
-				"type": "mrkdwn",
-				"text": "*Title of Article* \n description of the article \n <https://google.com|More Information>"
-			}
+			]
 		}
-		]
-	}
-	res.send(msg)
+
+		for (let i = 0; i < 2; i++) {
+			let webpage = 
+			{
+				"type": "section",
+				"text": {
+					"type": "mrkdwn",
+					"text": "*" + title
+					+ "* \n"
+					+ description
+					+ "\n <" 
+					+ link 
+					+ "|More Information>"
+				}
+			}
+			msg.blocks.push(webpage);
+		}
+		res.send(msg)
+	})
 });
+
+let s = '{"first": true}'
+JSON.parse(s)
 
 // append /api for our http requests
 app.use("/api", router);
