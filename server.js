@@ -1,15 +1,17 @@
 const express = require("express");
-var cors = require("cors");
+const cors = require("cors");
 const bodyParser = require("body-parser");
 const logger = require("morgan");
-
+const axios = require("axios")
 const API_PORT = 3000;
 const app = express();
-app.use(cors());
 const router = express.Router();
 
-// (optional) only made for logging and
-// bodyParser, parses the request body to be a readable json format
+const NewsAPI = require('newsapi');
+const newsapi = new NewsAPI('bdf469f2d1c54841b3b6ba5879fecdcf');
+const MSG_URI = "https://hooks.slack.com/services/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"
+
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(logger("dev"));
@@ -19,9 +21,52 @@ app.get("/", (req, res) => {
 	res.send("<h1> wushbrackin </h1>")
 })
 
-// Test
-router.get("/test", (req, res) => {
-	res.send("hello world")
+// Top news
+router.post("/news", async function (req, res) {
+	res.send("this is top news from server")
+	
+	let res1 = await newsapi.v2.topHeadlines({
+		sources: 'bbc-news,the-verge',
+		q: 'apple',
+		language: 'en'
+	})
+	console.log(res1)
+
+	let payload = {
+		"text" : JSON.stringify(res1.articles, null, 3)
+	}
+
+	axios.post(MSG_URI, payload)
+	.then((res2) => console.log("sent"))
+});
+
+// Test endpoint
+router.post("/stonks", async function (req, res) {
+	let search = req.body.text
+	let msg = 
+	{
+		"blocks": 
+		[
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "Here is some information on the stock market for " + search + ":"
+			}
+		},
+		{
+			"type": "divider"
+		},
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "*Title of Article* \n description of the article \n <https://google.com|More Information>"
+			}
+		}
+		]
+	}
+	res.send(msg)
 });
 
 // append /api for our http requests
