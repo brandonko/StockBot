@@ -45,12 +45,12 @@ router.post("/stonks", async function (req, res) {
 
 	// Python script for scraping data
 	let spawn = require("child_process").spawn;
-	let pythonProcess = spawn('python',["./test.py"]);
+	let pythonProcess = spawn('python',["./parse_sa.py"]);
 
 	pythonProcess.stdout.on('data', (data) => {
 		let str = data.toString()
-		let js = JSON.parse(str.replace(/'/g, '"'))
-		console.log(js)
+		let js = JSON.parse(str.replace('\'', '`').replace(/'/g, '"'))
+		console.log(JSON.stringify(js, null, 3))
 
 		// Format the message
 		let search = req.body.text;
@@ -72,6 +72,10 @@ router.post("/stonks", async function (req, res) {
 		}
 
 		for (let i = 0; i < 2; i++) {
+			let title = "title"
+			let description = "description"
+			let link = "link"
+
 			let webpage = 
 			{
 				"type": "section",

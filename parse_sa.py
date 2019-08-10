@@ -10,8 +10,6 @@ soup = BeautifulSoup(r.content, "lxml")
 
 data = {}
 next_attr = soup.find(attrs={"class" : "next"})
-r = requests.get(page)
-soup = BeautifulSoup(r.content, "lxml")
 temp_breaker_count = 0
 for ticker in soup.find_all(attrs={"class" : "mc"}):
     temp_breaker_count += 1
