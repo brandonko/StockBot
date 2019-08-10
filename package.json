@@ -1,0 +1,24 @@
+{
+  "name": "stockbot",
+  "version": "1.0.0",
+  "description": "Investment Bot",
+  "main": "server.js",
+  "dependencies": {
+    "newsapi": "^2.4.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brandonko/StockBot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/brandonko/StockBot/issues"
+  },
+  "homepage": "https://github.com/brandonko/StockBot#readme"
+}
