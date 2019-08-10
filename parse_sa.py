@@ -16,7 +16,7 @@ for ticker in soup.find_all(attrs={"class" : "mc"}):
     ticker_name = ticker.find(attrs={"class" : "media-left"}).text.strip()
     news_title = ticker.find(attrs={"class" : "title"}).text.strip()
     bullets_header = ticker.find(attrs={"class" : "bullets"})
-    bullets = [bullet.text.strip() for bullet in bullets_header.find_all("li")]
+    bullets = [bullet.text.strip().replace("\'", "`") for bullet in bullets_header.find_all("li")]
     internal_json = {"title" : news_title, "bullets" : bullets}
     internal_json = json.dumps(internal_json)
     data[ticker_name] = internal_json
