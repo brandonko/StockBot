@@ -17,7 +17,7 @@ for ticker in soup.find_all(attrs={"class" : "mc"}):
     news_title = ticker.find(attrs={"class" : "title"}).text.strip()
     bullets_header = ticker.find(attrs={"class" : "bullets"})
     bullets = [bullet.text.strip().replace("\'", "`") for bullet in bullets_header.find_all("li")]
-    internal_json = {"title" : news_title, "bullets" : bullets}
+    internal_json = {"title" : news_title.replace("\'", "`"), "bullets" : bullets}
     internal_json = json.dumps(internal_json)
     data[ticker_name] = internal_json
     if temp_breaker_count > 1:
